@@ -55,34 +55,12 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                         ],
                         "should": [  #
                             {
-                                "match": {
-                                    "name": {
-                                        "query": user_query,
-                                        "fuzziness": "1",
-                                        "prefix_length": 2,
-                                        # short words are often acronyms or usually not misspelled, so don't edit
-                                        "boost": 0.01
-                                    }
-                                }
-                            },
-                            {
-                                "match_phrase": {  # near exact phrase match
-                                    "name.hyphens": {
-                                        "query": user_query,
-                                        "slop": 1,
-                                        "boost": 50
-                                    }
-                                }
-                            },
-                            {
                                 "multi_match": {
                                     "query": user_query,
                                     "type": "phrase",
                                     "slop": "6",
                                     "minimum_should_match": "2<75%",
-                                    "fields": ["name^10", "name.hyphens^10", "shortDescription^5",
-                                               "longDescription^5", "department^0.5", "sku", "manufacturer", "features",
-                                               "categoryPath"]
+                                    "fields": ["name^10", "shortDescription^5"]
                                 }
                             },
                             {
@@ -90,15 +68,6 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                                     # Lots of SKUs in the query logs, boost by it, split on whitespace so we get a list
                                     "sku": user_query.split(),
                                     "boost": 50.0
-                                }
-                            },
-                            {  # lots of products have hyphens in them or other weird casing things like iPad
-                                "match": {
-                                    "name.hyphens": {
-                                        "query": user_query,
-                                        "operator": "OR",
-                                        "minimum_should_match": "2<75%"
-                                    }
                                 }
                             }
                         ],
@@ -108,53 +77,6 @@ def create_query(user_query, filters=None, sort="_score", sortDir="desc", size=1
                 },
                 "boost_mode": "multiply",  # how _score and functions are combined
                 "score_mode": "sum",  # how functions are combined
-                "functions": [
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankShortTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankShortTerm": {
-                                "origin": "1.0",
-                                "scale": "100"
-                            }
-                        }
-                    },
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankMediumTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankMediumTerm": {
-                                "origin": "1.0",
-                                "scale": "1000"
-                            }
-                        }
-                    },
-                    {
-                        "filter": {
-                            "exists": {
-                                "field": "salesRankLongTerm"
-                            }
-                        },
-                        "gauss": {
-                            "salesRankLongTerm": {
-                                "origin": "1.0",
-                                "scale": "1000"
-                            }
-                        }
-                    },
-                    {
-                        "script_score": {
-                            "script": "0.0001"
-                        }
-                    }
-                ]
-
             }
         }
     }
@@ -205,8 +127,8 @@ def main(query_file: str, index_name: str, host: str, max_queries: int):
 
     end = perf_counter()
     logger.info(f"Finished running {len(queries)} queries in {(end - start)/60} minutes")
-    
-    
+
+
 
 if __name__ == "__main__":
     main()
