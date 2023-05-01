@@ -20,3 +20,9 @@ Opensearch merged the segments
 CPU Spiked and was hovering at 100%
 
 ![cpu_spiked](images/cpu_usage.png)
+
+
+> L2: As you increased CPU and memory in your L2 tests, what seemed to be the constraining factor limiting indexing rate?
+
+
+L2: memory in your L2 tests, what seemed to be the constraining factor limiting indexing rate? What was the constraining factor for querying rate?
