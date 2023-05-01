@@ -2,7 +2,7 @@
 
 2K docs/sec
 
-![index]("images/16 worker threads batch size 500.png")
+![index](images/indexing.png)
 
 > L1: Notice that the Index size rose (roughly doubled) while the content was being indexed, peaked, then ~ 5 minutes after indexing stopped, the index size dropped down substantially. Why did it drop back down? (What did OpenSearch do here?)
 
@@ -10,7 +10,7 @@
 
 Opensearch merged the segments
 
-![index]("images/segment merge.png")
+![index](images/segment_merge.png)
 
 > L1: Looking at the metrics dashboard, what queries/sec rate are you getting?
 
@@ -19,3 +19,4 @@ Opensearch merged the segments
 
 CPU Spiked and was hovering at 100%
 
+![cpu_spiked](images/cpu_usage.png)
