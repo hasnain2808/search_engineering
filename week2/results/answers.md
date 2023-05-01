@@ -14,6 +14,10 @@ Opensearch merged the segments
 
 > L1: Looking at the metrics dashboard, what queries/sec rate are you getting?
 
+12 queries/sec
+
+![query_cache](images/queries.png)
+![query_cache](images/query_cache.png)
 
 > L1: What resource(s) appear to be the constraining factor?
 
@@ -24,5 +28,8 @@ CPU Spiked and was hovering at 100%
 
 > L2: As you increased CPU and memory in your L2 tests, what seemed to be the constraining factor limiting indexing rate?
 
+Still CPU (on gitpod)
 
-L2: memory in your L2 tests, what seemed to be the constraining factor limiting indexing rate? What was the constraining factor for querying rate?
+> L2: memory in your L2 tests, what seemed to be the constraining factor limiting indexing rate? What was the constraining factor for querying rate?
+
+Still CPU (on gitpod)
